@@ -1,6 +1,8 @@
 using UnityEngine;
 public class ObjectBase
 {
+    //0:未激活，1:激活,2特殊
+    public int state;
     //具体的技能配置
     public SkillBase skill;
     //物品生效的有效距离
