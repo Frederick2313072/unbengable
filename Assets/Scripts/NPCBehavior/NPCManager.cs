@@ -73,7 +73,8 @@ namespace NPCBehavior
                 NPCFearType.Box,
                 NPCFearType.Chair,
                 NPCFearType.Lamp,
-                NPCFearType.Book
+                NPCFearType.Book,
+                NPCFearType.Telephone
             };
 
             NPCFearType randomFear = allFears[Random.Range(0, allFears.Count)];

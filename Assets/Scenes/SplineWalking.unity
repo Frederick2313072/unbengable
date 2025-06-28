@@ -219,9 +219,9 @@ MonoBehaviour:
           z: 0.0004901242
           w: 0.97562367
     - Position:
-        x: 3.12
-        y: -17.31
-        z: 36.29
+        x: 3.1
+        y: 0
+        z: 36.3
       TangentIn:
         x: 0
         y: 0
@@ -232,9 +232,9 @@ MonoBehaviour:
         z: 13.063101
       Rotation:
         value:
-          x: 0.000031836695
+          x: 0.000031835727
           y: 0.49389789
-          z: -0.0007189412
+          z: -0.0007189416
           w: 0.86951965
     - Position:
         x: 19.31
@@ -569,6 +569,9 @@ MonoBehaviour:
   state: 0
   distance: 10
   cd: 0
+  feartype: 0
+  feartype: 0
+  anim: {fileID: 0}
 --- !u!1 &1115762994
 GameObject:
   m_ObjectHideFlags: 0

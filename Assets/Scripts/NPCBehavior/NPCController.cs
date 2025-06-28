@@ -28,7 +28,8 @@ namespace NPCBehavior
         Box,
         Chair,
         Lamp,
-        Book
+        Book,
+        Telephone
     }
 
     public class NpcController : MonoBehaviour
