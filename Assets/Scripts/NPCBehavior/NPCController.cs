@@ -94,6 +94,7 @@ namespace NPCBehavior
         void Update()
         {
             WalkingAlongSpline();
+            MusicManager.Instance.PlayRandomHumanFootstep(); // Play footstep sound effect
         }
 
 
@@ -133,7 +134,8 @@ namespace NPCBehavior
             }
 
             npcAnimator.SetTrigger("Running"); // Trigger death animation
-
+            MusicManager.Instance.PlayRandomHumanHorror(); // Play horror sound effect
+            
             // Wait for the shock duration
             yield return new WaitForSeconds(duration);
 
@@ -147,10 +149,9 @@ namespace NPCBehavior
 
         public void TriggerDeath()
         {
-            if (npcStatus != NPCStatus.Dead)
+            if (npcStatus == NPCStatus.Dead)
             {
                 npcStatus = NPCStatus.Dead;
-                npcAnimator.SetTrigger("Dead"); // Trigger death animation
                 StartCoroutine(HandleDeath());
             }
         }
@@ -158,13 +159,10 @@ namespace NPCBehavior
         private IEnumerator HandleDeath()
         {
             // Wait for the death animation to finish
-            AnimatorStateInfo stateInfo = npcAnimator.GetCurrentAnimatorStateInfo(0);
-            while (stateInfo.IsName("Dead") && stateInfo.normalizedTime < 1.0f)
-            {
-                yield return null;
-                stateInfo = npcAnimator.GetCurrentAnimatorStateInfo(0);
-            }
-
+            npcAnimator.SetBool("isDead", true);
+            _currentSpeed = 0;
+            yield return new WaitForSeconds(1.0f); // Adjust this duration based on your animation length
+            
             // Destroy the NPC GameObject
             Destroy(gameObject);
         }

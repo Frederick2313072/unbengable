@@ -79,7 +79,7 @@ namespace NPCBehavior
 
             NPCFearType randomFear = allFears[Random.Range(0, allFears.Count)];
 
-            int defaultHealth = 5;
+            int defaultHealth = 1;
             
             npcController.Initialize(type, defaultHealth, status, randomFear); // Initialize the NPC controller
             
