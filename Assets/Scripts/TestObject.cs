@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TestObject : ObjectBase
 {
+    public NPCFearType feartype = NPCFearType.Painting; // Fear type for this object
+    
     public override void Trigger()
     {
         base.Trigger();
@@ -16,7 +18,7 @@ public class TestObject : ObjectBase
             if (npc != null)
             {
                 // 调用 NpcController 的目标函数
-                npc.TriggerShock(3.0f); // 示例：触发 Shock 状态，持续 3 秒
+                npc.TriggerShock(3.0f, feartype); // 示例：触发 Shock 状态，持续 3 秒
             }
         }
         Debug.Log("TestObject Triggered");

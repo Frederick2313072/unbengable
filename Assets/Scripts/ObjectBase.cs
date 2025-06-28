@@ -10,6 +10,7 @@ public class ObjectBase : MonoBehaviour
     //冷却时间
     public float cd;
 
+    public NPCBehavior.NPCFearType feartype;
 
     //每秒恢复的冷却时间
     private float cdPerSecond;

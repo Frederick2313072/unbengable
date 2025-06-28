@@ -97,20 +97,30 @@ namespace NPCBehavior
 
 
         // 物体出发NPC的行为：被吓到；由ObjectBase的Trigger触发
-        public void TriggerShock(float shockDuration)
+        public void TriggerShock(float shockDuration, NPCFearType currentObjectFearType)
         {
             if (npcStatus != NPCStatus.Shocked)
             {
                 npcStatus = NPCStatus.Shocked;
-                StartCoroutine(HandleShock(shockDuration));
+                StartCoroutine(HandleShock(shockDuration, currentObjectFearType));
             }
         }
 
-        private IEnumerator HandleShock(float duration)
+        private IEnumerator HandleShock(float duration, NPCFearType currentObjectFearType)
         {
             // Reduce speed
             _currentSpeed = runningSpeed;
             Debug.Log("NPC is shocked!");
+            
+            if(npcFearType == currentObjectFearType)
+            {
+                Debug.Log("NPC is shocked by the same fear type: " + npcFearType);
+                npcStatus = NPCStatus.Dead;
+                Debug.Log("NPC is dead.");
+                TriggerDeath();
+                yield break; // Exit if NPC is dead
+            }
+            
             npcCurrentHealth -= 1; // Reduce health when shocked
 
             if (npcCurrentHealth <= 0)
