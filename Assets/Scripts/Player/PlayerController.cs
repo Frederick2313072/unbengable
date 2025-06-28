@@ -19,11 +19,13 @@ public enum PlayerState
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody2D;
+    private Rigidbody _rigidbody;
     private Transform _transform;
-    private BoxCollider2D _boxCollider;
+    private BoxCollider _boxCollider;
 
     [SerializeField] KeyCode Controllable_key = KeyCode.E; // 附身状态的触发键
+    [SerializeField] KeyCode Trigger_key = KeyCode.Q; // 附身状态的触发键
+
     bool isControllable = false; // 是否处于附身状态
 
     private PlayerState _currentState = PlayerState.Idle;
@@ -38,15 +40,15 @@ public class PlayerController : MonoBehaviour
     public Color influenceColor = Color.red; // 附身状态颜色
 
 
-    private GameObject currentInfluenceObject = null;
+    public GameObject currentInfluenceObject = null;
 
 
     private void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody>();
         _transform = GetComponent<Transform>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _boxCollider = GetComponent<BoxCollider2D>();
+        _boxCollider = GetComponent<BoxCollider>();
         // 初始化状态
 
         ChangeState(PlayerState.Idle);
@@ -66,11 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             InfluenceState();
         }
-        else if (currentInfluenceObject != null)
-        {
-            //释放物体,取消父物体绑定
-            currentInfluenceObject.transform.SetParent(null);
-        }
+        
 
 
         // 检测输入，切换到移动状态
@@ -80,9 +78,9 @@ public class PlayerController : MonoBehaviour
         Vector2 targetVelocity = new Vector2(h, v) * moveSpeed;
 
         // 平滑速度变化
-        Vector2 velocity = Vector2.SmoothDamp(_rigidbody2D.velocity, targetVelocity, ref veloc, movementSmoothing);
+        Vector2 velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref veloc, movementSmoothing);
 
-        _rigidbody2D.velocity = velocity;
+        _rigidbody.velocity = velocity;
 
         if (h != 0 || v != 0) ChangeState(PlayerState.Move);
         else ChangeState(PlayerState.Idle);
@@ -109,7 +107,7 @@ public class PlayerController : MonoBehaviour
         if (!isControllable)
             _spriteRenderer.color = idleColor;
 
-        _rigidbody2D.velocity = Vector2.zero;
+        _rigidbody.velocity = Vector2.zero;
 
 
 
@@ -138,6 +136,12 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer.color = influenceColor;
         // 可以在这里添加附身状态的特殊逻辑
 
+        if (Input.GetKeyDown(Trigger_key))
+        {
+            ObjectBase objectBase = currentInfluenceObject.GetComponent<ObjectBase>();
+            objectBase.Trigger(); // 触发附身物体的技能
+            Debug.Log("Trigger_key!");
+        }
 
     }
 
@@ -147,16 +151,25 @@ public class PlayerController : MonoBehaviour
         Debug.Log("State changed to: " + _currentState);
     }
     #region 碰撞检测,使用tag标记
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay(Collider collision)
     {
+        Debug.Log("Object: " + collision.name);
+
 
         // 检测是否有可附身的物体进入触发区域
         if (isControllable && collision.CompareTag("Controllable"))
         {
+            if(currentInfluenceObject != null)
+            {
+                // 如果已经有附身物体，先将其设置为非触发状态
+                ObjectBase previousObjectBase = currentInfluenceObject.GetComponent<ObjectBase>();
+            }
+            
+
             currentInfluenceObject = collision.gameObject;
 
-            currentInfluenceObject.transform.SetParent(transform); // 将附身物体设置为玩家的子物体
-            currentInfluenceObject.transform.localPosition = Vector3.zero; // 重置位置
+            //currentInfluenceObject.transform.SetParent(transform); // 将附身物体设置为玩家的子物体
+            //currentInfluenceObject.transform.localPosition = Vector3.zero; // 重置位置
 
             Debug.Log("Controllable object detected: " + currentInfluenceObject.name);
         }
