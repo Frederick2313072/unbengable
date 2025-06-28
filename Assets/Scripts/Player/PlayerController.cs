@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
     private Transform _transform;
     private BoxCollider2D _boxCollider;
 
-    [SerializeField] KeyCode Influence_key = KeyCode.E; // 附身状态的触发键
-    bool isInfluence = false; // 是否处于附身状态
+    [SerializeField] KeyCode Controllable_key = KeyCode.E; // 附身状态的触发键
+    bool isControllable = false; // 是否处于附身状态
 
     private PlayerState _currentState = PlayerState.Idle;
     public float moveSpeed = 5.0f; // 移动速度
@@ -57,12 +57,12 @@ public class PlayerController : MonoBehaviour
     void checkState()
     {
         // 检测附身状态,附身状态可以和其他状态重合
-        if (Input.GetKeyDown(Influence_key)) // 假设按E键进入附身状态
+        if (Input.GetKeyDown(Controllable_key)) // 假设按E键进入附身状态
         {
-            isInfluence = !isInfluence; // 切换附身状态
+            isControllable = !isControllable; // 切换附身状态
         }
 
-        if (isInfluence)
+        if (isControllable)
         {
             InfluenceState();
         }
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     private void IdleState()
     {
         // 空闲状态逻辑
-        if (!isInfluence)
+        if (!isControllable)
             _spriteRenderer.color = idleColor;
 
         _rigidbody2D.velocity = Vector2.zero;
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
         // 移动状态逻辑
 
         //附身具有最高优先级
-        if (!isInfluence)
+        if (!isControllable)
             _spriteRenderer.color = moveColor;
 
 
@@ -151,14 +151,14 @@ public class PlayerController : MonoBehaviour
     {
 
         // 检测是否有可附身的物体进入触发区域
-        if (isInfluence && collision.CompareTag("Influenceable"))
+        if (isControllable && collision.CompareTag("Controllable"))
         {
             currentInfluenceObject = collision.gameObject;
 
             currentInfluenceObject.transform.SetParent(transform); // 将附身物体设置为玩家的子物体
             currentInfluenceObject.transform.localPosition = Vector3.zero; // 重置位置
 
-            Debug.Log("Influenceable object detected: " + currentInfluenceObject.name);
+            Debug.Log("Controllable object detected: " + currentInfluenceObject.name);
         }
     }
 
