@@ -1,5 +1,5 @@
 using UnityEngine;
-public class ObjectBase
+public class ObjectBase : MonoBehaviour
 {
     //0:未激活，1:激活,2特殊
     public int state;
@@ -9,6 +9,8 @@ public class ObjectBase
     public float distance;
     //冷却时间
     public float cd;
+
+
     //每秒恢复的冷却时间
     private float cdPerSecond;
     //物体是否可以使用
