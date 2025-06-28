@@ -1,17 +1,26 @@
 using UnityEngine;
-public class ObjectBase
+public class ObjectBase : MonoBehaviour
 {
     //0:未激活，1:激活,2特殊
     public int state;
     //具体的技能配置
     public SkillBase skill;
     //物品生效的有效距离
-    public float distance;
+    public float distance = 10.0f;
     //冷却时间
     public float cd;
     //每秒恢复的冷却时间
     private float cdPerSecond;
     //物体是否可以使用
+    
+    void Update()
+    {
+        // 按E触发Trigger
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Trigger();
+        }
+    }
     public bool IsReady
     {
         get
