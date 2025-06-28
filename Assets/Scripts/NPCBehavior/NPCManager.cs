@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 namespace NPCBehavior
 {
@@ -59,7 +62,26 @@ namespace NPCBehavior
         {
             GameObject npcObject = Instantiate(npcPrefab, spawnPoint.position, spawnPoint.rotation);
             NpcController npcController = npcObject.GetComponent<NpcController>();
+            
+            NPCType type = (NPCType)Random.Range(0, System.Enum.GetValues(typeof(NPCType)).Length);
+            NPCStatus status = NPCStatus.Walking;
+            
+            // TODO: 从JSON读对应的数据生成当前的FearList
+            List<NPCFearType> allFears = new List<NPCFearType>
+            {
+                NPCFearType.Painting,
+                NPCFearType.Box,
+                NPCFearType.Chair,
+                NPCFearType.Lamp,
+                NPCFearType.Book
+            };
 
+            NPCFearType randomFear = allFears[Random.Range(0, allFears.Count)];
+
+            int defaultHealth = 5;
+            
+            npcController.Initialize(type, defaultHealth, status, randomFear); // Initialize the NPC controller
+            
             if (npcController != null)
             {
                 int npcId = npcIdCounter++;
