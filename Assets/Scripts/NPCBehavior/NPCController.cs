@@ -1,0 +1,154 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.Splines;
+
+// TODO：添加NPC animator的状态机
+// TODO：添加音效触发
+
+namespace NPCBehavior
+{
+    public enum NPCType
+    {
+        Normal, // Normal NPC
+        Thief, // Thief NPC
+    }
+    
+    public enum NPCStatus
+    {
+        Idle, // NPC is idle
+        Shocked, // NPC is shocked
+        Dead, // NPC is dead
+    }
+    
+    public class NpcController : MonoBehaviour
+    {
+        // NPC属性
+        public NPCType npcType; // Type of the NPC
+        public NPCStatus npcStatus; // Current status of the NPC
+        public int npcDefaultHealth = 5;
+        private int _npcCurrentHealth = 5; // Current health of the NPC
+        
+        // TODO: 动画系统
+        public Animator npcAnimator; // Animator component for NPC animations
+        
+        private ObjectBase _targetObject; 
+        
+        // 步行所需代码
+        public SplineContainer splineContainer; // Reference to the SplineController
+        
+        private float _currentSpeed = 0.1f; // Speed of movement along the spline
+        
+        public float walkingSpeed = 0.1f; // Speed of the NPC along the spline
+        public float runningSpeed = 0.3f;
+        
+        private float _progress = 0.0f; // Current progress along the spline (0 to 1)s
+        
+        // Start is called before the first frame update
+        void Start()
+        {
+            // Initialize NPC status
+            npcStatus = NPCStatus.Idle;
+            // Initialize NPC health
+            _npcCurrentHealth = npcDefaultHealth;
+
+            if (npcAnimator == null)
+            {
+                npcAnimator = GetComponent<Animator>();
+            }
+            
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            WalkingAlongSpline();
+        }
+        
+        
+        // 物体出发NPC的行为：被吓到；由ObjectBase的Trigger触发
+        public void TriggerShock(float shockDuration)
+        {
+            if (npcStatus != NPCStatus.Shocked)
+            {
+                npcStatus = NPCStatus.Shocked;
+                StartCoroutine(HandleShock(shockDuration));
+            }
+        }
+        
+        private IEnumerator HandleShock(float duration)
+        {
+            // Reduce speed
+            _currentSpeed = runningSpeed;
+            Debug.Log("NPC is shocked!");
+            _npcCurrentHealth -= 1; // Reduce health when shocked
+            
+            if(_npcCurrentHealth <= 0)
+            {
+                npcStatus = NPCStatus.Dead;
+                Debug.Log("NPC is dead.");
+                TriggerDeath();
+                yield break; // Exit if NPC is dead
+            }
+            
+            npcAnimator.SetTrigger("Running"); // Trigger death animation
+
+            // Wait for the shock duration
+            yield return new WaitForSeconds(duration);
+
+            // Restore speed and status
+            _currentSpeed = walkingSpeed;
+            npcStatus = NPCStatus.Idle;
+            npcAnimator.SetTrigger("Walking"); // Trigger death animation
+           
+            Debug.Log("NPC recovered from shock.");
+        }
+
+        public void TriggerDeath()
+        {
+            if (npcStatus != NPCStatus.Dead)
+            {
+                npcStatus = NPCStatus.Dead;
+                npcAnimator.SetTrigger("Dead"); // Trigger death animation
+                StartCoroutine(HandleDeath());
+            }
+        }
+        
+        private IEnumerator HandleDeath()
+        {
+            // Wait for the death animation to finish
+            AnimatorStateInfo stateInfo = npcAnimator.GetCurrentAnimatorStateInfo(0);
+            while (stateInfo.IsName("Dead") && stateInfo.normalizedTime < 1.0f)
+            {
+                yield return null;
+                stateInfo = npcAnimator.GetCurrentAnimatorStateInfo(0);
+            }
+            
+            // Destroy the NPC GameObject
+            Destroy(gameObject);
+        }
+        
+        // NPC沿着样条曲线行走
+        void WalkingAlongSpline()
+        {
+            if (splineContainer == null || splineContainer.Spline == null) return;
+
+            _progress += _currentSpeed * Time.deltaTime; // Update progress based on speed and time
+            if (_progress > 1.0f) _progress = 0.0f;
+
+
+            Vector3 position = splineContainer.Spline.EvaluatePosition(_progress); // Get position on the spline
+            Vector3 tangent =
+                splineContainer.Spline.EvaluateTangent(_progress); // Update the GameObject's tangent for orientation
+
+            transform.position = position; // Update the GameObject's position
+
+            // Update rotation to align with the tangent
+            if (tangent != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(tangent);
+            }
+        }
+    }
+}
