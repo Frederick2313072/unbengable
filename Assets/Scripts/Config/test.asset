@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09be7dfb5ac918f42a419a7051d70a73, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  amb_horror: []
+  amb_horror:
+  - {fileID: 8300000, guid: 2956019410ab98f43bd15a1339a2dc9f, type: 3}
   ghost_movement: []
   ghost_cast: []
   human_footstep: []

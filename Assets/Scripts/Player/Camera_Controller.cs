@@ -9,9 +9,9 @@ public class Camera_Controller:MonoSingleton<Camera_Controller>
     [SerializeField] float moveSpeed; // 跟随速度
     // 初始化相机跟踪的边界
     [SerializeField] Vector2 positionXScope; // X的范围
-    [SerializeField] Vector2 positionZScope; // Z的范围
+    [SerializeField] Vector2 positionYScope; // Y的范围
 
-    public void Init(float mapSizeOnWorld)
+    public void Start()
     {
         mTransform = transform;
     }
@@ -24,7 +24,7 @@ public class Camera_Controller:MonoSingleton<Camera_Controller>
         {
             Vector3 targetPosition = target.position + offset;
             targetPosition.x = Mathf.Clamp(targetPosition.x, positionXScope.x, positionXScope.y);
-            targetPosition.z = Mathf.Clamp(targetPosition.z, positionZScope.x, positionZScope.y);
+            targetPosition.y = Mathf.Clamp(targetPosition.y, positionYScope.x, positionYScope.y);
             mTransform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
         }
     }

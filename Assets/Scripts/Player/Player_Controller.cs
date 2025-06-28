@@ -28,8 +28,9 @@ public class Player_Controller : MonoBehaviour
 
     private PlayerState _currentState = PlayerState.Idle;
     public float moveSpeed = 5.0f; // 移动速度
-
-
+    public float movementSmoothing = 0.5f;
+    private Vector2 veloc;
+    float h, v;
     //改变颜色来显示不同状态
     private SpriteRenderer _spriteRenderer;
     public Color idleColor = Color.white; // 空闲状态颜色
@@ -70,9 +71,18 @@ public class Player_Controller : MonoBehaviour
             //释放物体,取消父物体绑定
             currentInfluenceObject.transform.SetParent(null);
         }
+
+
         // 检测输入，切换到移动状态
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        h = Input.GetAxis("Horizontal");
+        v = Input.GetAxis("Vertical");
+        // 目标速度（不考虑重力时，直接用输入轴）
+        Vector2 targetVelocity = new Vector2(h, v) * moveSpeed;
+
+        // 平滑速度变化
+        Vector2 velocity = Vector2.SmoothDamp(_rigidbody2D.velocity, targetVelocity, ref veloc, movementSmoothing);
+
+        _rigidbody2D.velocity = velocity;
 
         if (h != 0 || v != 0) ChangeState(PlayerState.Move);
         else ChangeState(PlayerState.Idle);
@@ -121,7 +131,7 @@ public class Player_Controller : MonoBehaviour
     //附身逻辑比较特殊
     private void InfluenceState()
     {
-        
+
 
 
         // 附身状态逻辑
