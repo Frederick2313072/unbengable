@@ -1,5 +1,7 @@
+using NPCBehavior;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -23,10 +25,15 @@ public class PlayerController : MonoBehaviour
     private Transform _transform;
     private BoxCollider _boxCollider;
 
+    public Material outline;
+    public Material originMat;
+
+    private SpriteRenderer spriteRenderer;
+
     [SerializeField] KeyCode Controllable_key = KeyCode.E; // 附身状态的触发键
     [SerializeField] KeyCode Trigger_key = KeyCode.Q; // 附身状态的触发键
 
-    bool isControllable = false; // 是否处于附身状态
+    [SerializeField] bool isControllable = false; // 是否处于附身状态
 
     private PlayerState _currentState = PlayerState.Idle;
     public float moveSpeed = 5.0f; // 移动速度
@@ -156,31 +163,31 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("State changed to: " + _currentState);
     }
     #region 碰撞检测,使用tag标记
-    private void OnTriggerStay(Collider collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        //Debug.Log("Object: " + collision.name);
-
-
+        Debug.Log("Collider Enter:"+collision.name);
         // 检测是否有可附身的物体进入触发区域
-        if (isControllable && collision.CompareTag("Controllable"))
-        {
-            //if(currentInfluenceObject != null)
-            //{
-            //    // 如果已经有附身物体，先将其设置为非触发状态
-            //    ObjectBase previousObjectBase = currentInfluenceObject.GetComponent<ObjectBase>();
-            //}
-            
-
+        if (collision.CompareTag("Controllable"))
+        {  
             currentInfluenceObject = collision.gameObject;
+            spriteRenderer = currentInfluenceObject.GetComponent<SpriteRenderer>();
+            originMat = spriteRenderer.material;
+            spriteRenderer.material = outline;
 
-            //currentInfluenceObject.transform.SetParent(transform); // 将附身物体设置为玩家的子物体
-            //currentInfluenceObject.transform.localPosition = Vector3.zero; // 重置位置
-
-            Debug.Log("Controllable object detected: " + currentInfluenceObject.name);
         }
     }
 
+    private void OnTriggerExit(Collider collision)
+    {
+        Debug.Log("Collider Exit:" + collision.name);
 
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.material = originMat;
+            spriteRenderer = null;
+            currentInfluenceObject = null;
+        }
+    }
     #endregion
 }
 

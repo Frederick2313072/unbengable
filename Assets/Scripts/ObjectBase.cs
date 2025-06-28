@@ -9,8 +9,7 @@ public class ObjectBase : MonoBehaviour
     public float distance = 10.0f;
     //冷却时间
     public float cd;
-
-
+    
     //每秒恢复的冷却时间
     private float cdPerSecond;
     //物体是否可以使用
@@ -35,6 +34,7 @@ public class ObjectBase : MonoBehaviour
     {
 
     }
+    
     //触发技能
     public virtual void Trigger()
     {

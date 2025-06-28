@@ -17,17 +17,19 @@ namespace NPCBehavior
 
     public enum NPCStatus
     {
-        Idle, // NPC is idle
+        Walking, // NPC is idle
         Shocked, // NPC is shocked
         Dead, // NPC is dead
     }
     
     public enum NPCFearType
     {
-        Walking, // NPC is walking
-        Running, // NPC is running
-        Attacking, // NPC is attacking
-        Defending, // NPC is defending
+        Painting, 
+        Box,
+        Chair,
+        Lamp,
+        Book,
+        Telephone
     }
 
     public class NpcController : MonoBehaviour
@@ -35,14 +37,16 @@ namespace NPCBehavior
         // NPC属性
         public NPCType npcType; // Type of the NPC
         public NPCStatus npcStatus; // Current status of the NPC
+        public NPCFearType npcFearType; // Fear type of the NPC
+        
         public int npcDefaultHealth = 5;
-        private int _npcCurrentHealth = 5; // Current health of the NPC
+        public int npcCurrentHealth = 5; // Current health of the NPC
 
         // TODO: 动画系统
         public Animator npcAnimator; // Animator component for NPC animations
 
         private ObjectBase _targetObject;
-
+        
         // 步行所需代码
         public SplineContainer splineContainer; // Reference to the SplineController
 
@@ -54,14 +58,17 @@ namespace NPCBehavior
         public string splineGameObjectName = "Spline"; // Name of the GameObject containing the spline
         
         private float _progress = 0.0f; // Current progress along the spline (0 to 1)s
-
-        // Start is called before the first frame update
-        void Start()
+        
+        public void Initialize(NPCType type, int defaultHealth, NPCStatus status, NPCFearType fearType)
         {
             // Initialize NPC status
-            npcStatus = NPCStatus.Idle;
+            npcType = type;
+            npcDefaultHealth = defaultHealth;
+            npcStatus = status;
+            npcFearType = fearType;
+            
             // Initialize NPC health
-            _npcCurrentHealth = npcDefaultHealth;
+            npcCurrentHealth = npcDefaultHealth;
 
             if (npcAnimator == null)
             {
@@ -91,23 +98,33 @@ namespace NPCBehavior
 
 
         // 物体出发NPC的行为：被吓到；由ObjectBase的Trigger触发
-        public void TriggerShock(float shockDuration)
+        public void TriggerShock(float shockDuration, NPCFearType currentObjectFearType)
         {
             if (npcStatus != NPCStatus.Shocked)
             {
                 npcStatus = NPCStatus.Shocked;
-                StartCoroutine(HandleShock(shockDuration));
+                StartCoroutine(HandleShock(shockDuration, currentObjectFearType));
             }
         }
 
-        private IEnumerator HandleShock(float duration)
+        private IEnumerator HandleShock(float duration, NPCFearType currentObjectFearType)
         {
             // Reduce speed
             _currentSpeed = runningSpeed;
             Debug.Log("NPC is shocked!");
-            _npcCurrentHealth -= 1; // Reduce health when shocked
+            
+            if(npcFearType == currentObjectFearType)
+            {
+                Debug.Log("NPC is shocked by the same fear type: " + npcFearType);
+                npcStatus = NPCStatus.Dead;
+                Debug.Log("NPC is dead.");
+                TriggerDeath();
+                yield break; // Exit if NPC is dead
+            }
+            
+            npcCurrentHealth -= 1; // Reduce health when shocked
 
-            if (_npcCurrentHealth <= 0)
+            if (npcCurrentHealth <= 0)
             {
                 npcStatus = NPCStatus.Dead;
                 Debug.Log("NPC is dead.");
@@ -122,7 +139,7 @@ namespace NPCBehavior
 
             // Restore speed and status
             _currentSpeed = walkingSpeed;
-            npcStatus = NPCStatus.Idle;
+            npcStatus = NPCStatus.Walking;
             npcAnimator.SetTrigger("Walking"); // Trigger death animation
 
             Debug.Log("NPC recovered from shock.");
