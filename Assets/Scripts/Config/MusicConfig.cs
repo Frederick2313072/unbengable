@@ -14,19 +14,16 @@ public class MusicConfig : ScriptableObject
     [Header("闯入者脚步声")]
     public AudioClip[] human_footstep;
     [Header("椅子")]
-    public AudioClip[] char_movement;
+    public AudioClip[] wood_movement;
     [Header("书本")]
-    public AudioClip[] book_page;
-    public AudioClip[] book_fall;
+    public AudioClip[] book_page_turn;
     [Header("灯具")]
-    public AudioClip[] bulb_ele;
-    public AudioClip[] bulb_close;
+    public AudioClip[] bulb_evil_break;
     [Header("画框")]
     public AudioClip[] frame_broken;
     [Header("闯入者逃跑声音")]
-    public AudioClip[] human_escape;
-    [Header("闯入者惊吓声音")]
     public AudioClip[] human_horror;
+    
 
 
 }

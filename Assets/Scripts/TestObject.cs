@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class TestObject : ObjectBase
 {
+    public Animator anim;
     public override void Trigger()
     {
         base.Trigger();

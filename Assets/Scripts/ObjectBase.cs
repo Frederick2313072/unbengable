@@ -15,14 +15,7 @@ public class ObjectBase : MonoBehaviour
     private float cdPerSecond;
     //物体是否可以使用
     
-    void Update()
-    {
-        // 按E触发Trigger
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Trigger();
-        }
-    }
+    
     public bool IsReady
     {
         get
