@@ -136,11 +136,16 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer.color = influenceColor;
         // 可以在这里添加附身状态的特殊逻辑
 
-        if (Input.GetKeyDown(Trigger_key))
+        if (Input.GetKeyDown(Trigger_key)&& currentInfluenceObject!=null)
         {
             ObjectBase objectBase = currentInfluenceObject.GetComponent<ObjectBase>();
             objectBase.Trigger(); // 触发附身物体的技能
             Debug.Log("Trigger_key!");
+        }
+        else
+        {
+            Debug.Log("Trigger_key but no currentInfluenceObject");
+
         }
 
     }
@@ -148,22 +153,22 @@ public class PlayerController : MonoBehaviour
     public void ChangeState(PlayerState newState)
     {
         _currentState = newState;
-        Debug.Log("State changed to: " + _currentState);
+        //Debug.Log("State changed to: " + _currentState);
     }
     #region 碰撞检测,使用tag标记
     private void OnTriggerStay(Collider collision)
     {
-        Debug.Log("Object: " + collision.name);
+        //Debug.Log("Object: " + collision.name);
 
 
         // 检测是否有可附身的物体进入触发区域
         if (isControllable && collision.CompareTag("Controllable"))
         {
-            if(currentInfluenceObject != null)
-            {
-                // 如果已经有附身物体，先将其设置为非触发状态
-                ObjectBase previousObjectBase = currentInfluenceObject.GetComponent<ObjectBase>();
-            }
+            //if(currentInfluenceObject != null)
+            //{
+            //    // 如果已经有附身物体，先将其设置为非触发状态
+            //    ObjectBase previousObjectBase = currentInfluenceObject.GetComponent<ObjectBase>();
+            //}
             
 
             currentInfluenceObject = collision.gameObject;

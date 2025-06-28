@@ -5,6 +5,7 @@ public class TestObject : ObjectBase
 {
     public NPCFearType feartype = NPCFearType.Painting; // Fear type for this object
     
+    public Animator anim;
     public override void Trigger()
     {
         base.Trigger();
