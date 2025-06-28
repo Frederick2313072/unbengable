@@ -14,7 +14,7 @@ namespace NPCBehavior
         Normal, // Normal NPC
         Thief, // Thief NPC
     }
-    
+
     public enum NPCStatus
     {
         Idle, // NPC is idle
@@ -22,6 +22,14 @@ namespace NPCBehavior
         Dead, // NPC is dead
     }
     
+    public enum NPCFearType
+    {
+        Walking, // NPC is walking
+        Running, // NPC is running
+        Attacking, // NPC is attacking
+        Defending, // NPC is defending
+    }
+
     public class NpcController : MonoBehaviour
     {
         // NPC属性
@@ -29,22 +37,24 @@ namespace NPCBehavior
         public NPCStatus npcStatus; // Current status of the NPC
         public int npcDefaultHealth = 5;
         private int _npcCurrentHealth = 5; // Current health of the NPC
-        
+
         // TODO: 动画系统
         public Animator npcAnimator; // Animator component for NPC animations
-        
-        private ObjectBase _targetObject; 
-        
+
+        private ObjectBase _targetObject;
+
         // 步行所需代码
         public SplineContainer splineContainer; // Reference to the SplineController
-        
+
         private float _currentSpeed = 0.1f; // Speed of movement along the spline
-        
+
         public float walkingSpeed = 0.1f; // Speed of the NPC along the spline
         public float runningSpeed = 0.3f;
+
+        public string splineGameObjectName = "Spline"; // Name of the GameObject containing the spline
         
         private float _progress = 0.0f; // Current progress along the spline (0 to 1)s
-        
+
         // Start is called before the first frame update
         void Start()
         {
@@ -57,7 +67,20 @@ namespace NPCBehavior
             {
                 npcAnimator = GetComponent<Animator>();
             }
-            
+
+            if (splineContainer == null)
+            {
+                GameObject splineTransform = GameObject.Find(splineGameObjectName);
+                if (splineTransform != null)
+                {
+                    splineContainer = splineTransform.GetComponent<SplineContainer>();
+                }
+
+                if (splineContainer == null)
+                {
+                    Debug.LogError("SplineContainer not found under the child GameObject named 'Spline'.");
+                }
+            }
         }
 
         // Update is called once per frame
@@ -65,8 +88,8 @@ namespace NPCBehavior
         {
             WalkingAlongSpline();
         }
-        
-        
+
+
         // 物体出发NPC的行为：被吓到；由ObjectBase的Trigger触发
         public void TriggerShock(float shockDuration)
         {
@@ -76,22 +99,22 @@ namespace NPCBehavior
                 StartCoroutine(HandleShock(shockDuration));
             }
         }
-        
+
         private IEnumerator HandleShock(float duration)
         {
             // Reduce speed
             _currentSpeed = runningSpeed;
             Debug.Log("NPC is shocked!");
             _npcCurrentHealth -= 1; // Reduce health when shocked
-            
-            if(_npcCurrentHealth <= 0)
+
+            if (_npcCurrentHealth <= 0)
             {
                 npcStatus = NPCStatus.Dead;
                 Debug.Log("NPC is dead.");
                 TriggerDeath();
                 yield break; // Exit if NPC is dead
             }
-            
+
             npcAnimator.SetTrigger("Running"); // Trigger death animation
 
             // Wait for the shock duration
@@ -101,7 +124,7 @@ namespace NPCBehavior
             _currentSpeed = walkingSpeed;
             npcStatus = NPCStatus.Idle;
             npcAnimator.SetTrigger("Walking"); // Trigger death animation
-           
+
             Debug.Log("NPC recovered from shock.");
         }
 
@@ -114,7 +137,7 @@ namespace NPCBehavior
                 StartCoroutine(HandleDeath());
             }
         }
-        
+
         private IEnumerator HandleDeath()
         {
             // Wait for the death animation to finish
@@ -124,11 +147,11 @@ namespace NPCBehavior
                 yield return null;
                 stateInfo = npcAnimator.GetCurrentAnimatorStateInfo(0);
             }
-            
+
             // Destroy the NPC GameObject
             Destroy(gameObject);
         }
-        
+
         // NPC沿着样条曲线行走
         void WalkingAlongSpline()
         {
