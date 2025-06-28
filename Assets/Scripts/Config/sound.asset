@@ -12,15 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09be7dfb5ac918f42a419a7051d70a73, type: 3}
   m_Name: sound
   m_EditorClassIdentifier: 
-  amb_horror: []
-  ghost_movement: []
-  ghost_cast: []
-  human_footstep: []
-  char_movement: []
-  book_page: []
-  book_fall: []
-  bulb_ele: []
-  bulb_close: []
-  frame_broken: []
-  human_escape: []
-  human_horror: []
+  amb_horror:
+  - {fileID: 8300000, guid: 217dfcbf9efff904fa3f2e8dcea160ba, type: 3}
+  ghost_movement:
+  - {fileID: 8300000, guid: 784b64c501b8ea9499712ef39ac5528d, type: 3}
+  ghost_cast:
+  - {fileID: 8300000, guid: 07976d61d96820449a86e564a3c77fe1, type: 3}
+  human_footstep:
+  - {fileID: 8300000, guid: 0f760bd56151f5240b5faa3efa287f2e, type: 3}
+  - {fileID: 8300000, guid: 68128882d5e96d84db828061d63b4278, type: 3}
+  - {fileID: 8300000, guid: a712a37047a70734f9567ae3066dffc4, type: 3}
+  - {fileID: 8300000, guid: 75c04d6f90df7424b97086006117e522, type: 3}
+  - {fileID: 8300000, guid: 336827e65067af84daf03fb29836cb2d, type: 3}
+  - {fileID: 8300000, guid: e27a915545dd24c45968d771d885f8d5, type: 3}
+  wood_movement:
+  - {fileID: 8300000, guid: 4ff3c1502d881db4d93dee29613c9bd4, type: 3}
+  - {fileID: 8300000, guid: 52f4c50ad21762e43a998f019eaec32a, type: 3}
+  - {fileID: 8300000, guid: b45c2efdd6e70964eb093f56643d6d0e, type: 3}
+  book_page_turn:
+  - {fileID: 8300000, guid: 3bd3c4b11bdf8674997aa2398029cd71, type: 3}
+  - {fileID: 8300000, guid: 152a01f2501946b438a40e25d9444f65, type: 3}
+  bulb_evil_break:
+  - {fileID: 8300000, guid: 76b56e7fb39da0644ab86abacac8eecb, type: 3}
+  - {fileID: 8300000, guid: 68bfd9567ef8a7f428e4280db066a5ad, type: 3}
+  - {fileID: 8300000, guid: b51c6a2afa336a046a9dcaff63be8e21, type: 3}
+  frame_broken:
+  - {fileID: 8300000, guid: 17bbc860f2692984299202b2e006017b, type: 3}
+  - {fileID: 8300000, guid: d2e735a4936fb094b9a68ebc952f7136, type: 3}
+  - {fileID: 8300000, guid: 955e8a50092ea6249aadbe15f0e28cef, type: 3}
+  human_horror:
+  - {fileID: 8300000, guid: f32fb4d73542d304d9e0e11855a7743f, type: 3}
+  - {fileID: 8300000, guid: 798dcc36fb41e9146bd5e663338a4306, type: 3}
+  - {fileID: 8300000, guid: 33754c483b0d3c0479df1031ffb284ee, type: 3}
+  - {fileID: 8300000, guid: 994fa32c08ab89c44820683cbd9ce683, type: 3}
