@@ -65,8 +65,7 @@ public class PlayerController : MonoBehaviour
 
     void checkState()
     {
-        // 检测附身状态,附身状态可以和其他状态重合
-        if (Input.GetKeyDown(Controllable_key)) // 假设按E键进入附身状态
+        if ( currentInfluenceObject != null && Input.GetKeyDown(Controllable_key)) // 假设按E键进入附身状态
         {
             isControllable = !isControllable; // 切换附身状态
         }
@@ -137,9 +136,6 @@ public class PlayerController : MonoBehaviour
     //附身逻辑比较特殊
     private void InfluenceState()
     {
-
-
-
         // 附身状态逻辑
         _spriteRenderer.color = influenceColor;
         // 可以在这里添加附身状态的特殊逻辑

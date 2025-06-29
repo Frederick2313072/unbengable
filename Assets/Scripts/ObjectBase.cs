@@ -4,7 +4,7 @@ public class ObjectBase : MonoBehaviour
     //0:未激活，1:激活,2特殊
     public int state;
     //物品生效的有效距离
-    public float distance = 10.0f;
+    public float distance = 1.0f;
     //冷却时间
     public float cd;
     
