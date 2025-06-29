@@ -23,7 +23,10 @@ public class MusicConfig : ScriptableObject
     public AudioClip[] frame_broken;
     [Header("闯入者逃跑声音")]
     public AudioClip[] human_horror;
-    
+    [Header("主界面音乐（ui界面音乐）")]
+    public AudioClip[] music_intro;
+    [Header("游戏内音乐")]
+    public AudioClip[] music_main;
 
 
 }

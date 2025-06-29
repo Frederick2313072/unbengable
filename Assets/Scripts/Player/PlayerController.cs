@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     private PlayerState _currentState = PlayerState.Idle;
     public float moveSpeed = 5.0f; // 移动速度
     public float movementSmoothing = 0.5f;
-    private Vector2 veloc;
+    private Vector3 veloc;
     float h, v;
     //改变颜色来显示不同状态
     private SpriteRenderer _spriteRenderer;
@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
         if (isControllable)
         {
+            _rigidbody.velocity = Vector3.zero;
             InfluenceState();
         }
         
@@ -82,10 +83,10 @@ public class PlayerController : MonoBehaviour
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
         // 目标速度（不考虑重力时，直接用输入轴）
-        Vector2 targetVelocity = new Vector2(h, v) * moveSpeed;
+        Vector3 targetVelocity = new Vector3(h,0,v) * moveSpeed;
 
         // 平滑速度变化
-        Vector2 velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity, ref veloc, movementSmoothing);
+        Vector3 velocity = Vector3.SmoothDamp(_rigidbody.velocity, targetVelocity, ref veloc, movementSmoothing);
 
         _rigidbody.velocity = velocity;
 
@@ -152,7 +153,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("Trigger_key but no currentInfluenceObject");
-
         }
 
     }
