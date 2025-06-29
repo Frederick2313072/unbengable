@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MusicManager : MonoSingleton<MusicManager>
+public class MusicManager:MonoBehaviour
 {
     [SerializeField] MusicConfig musicConfig;
     private AudioSource audioSource;
     //public List<ObjectBase> Object;
     //public List<ObjectBase> TriggerObject;
 
-    public override void Awake()
+    public  void Init()
     {
-        base.Awake();
-
+   
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
@@ -68,12 +67,34 @@ public class MusicManager : MonoSingleton<MusicManager>
         PlayRandomAudioClip(musicConfig.human_horror);
     }
 
+    public void PlayRandomMusicIntro()
+    {
+        PlayRandomAudioClip(musicConfig.music_intro);
+    }
+
+    public void PlayRandomMusicMain()
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(musicConfig.music_main[Random.Range(0, musicConfig.music_main.Length)]);
+    }
+
     private void PlayRandomAudioClip(AudioClip[] clips)
     {
         if (clips != null && clips.Length > 0)
         {
+            audioSource.Stop();
             AudioClip randomClip = clips[Random.Range(0, clips.Length)];
             audioSource.PlayOneShot(randomClip);
         }
+    }
+
+    public void SetLoop()
+    {
+        audioSource.loop = true;
+    }
+
+    public void SetVolum(float v)
+    {
+        audioSource.volume = v;
     }
 }

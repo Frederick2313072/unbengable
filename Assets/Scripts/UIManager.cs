@@ -9,6 +9,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     private Dictionary<string, GameObject> uiPanels = new Dictionary<string, GameObject>();
 
+    public MusicManager musicManager = default;
     public Button start = default;
     public Button exit = default;
 
@@ -19,8 +20,9 @@ public class UIManager : MonoSingleton<UIManager>
 
     override public void Awake()
     {
+        base.Awake();
         uiPanels.Clear();
-
+        musicManager.Init();
         uiPanels.Add("MainMenu", mainMenuPanel);
         uiPanels.Add("Game", gamePanel);
         uiPanels.Add("Finish", finishPanel);
@@ -36,12 +38,17 @@ public class UIManager : MonoSingleton<UIManager>
         
         start.onClick.AddListener(LoadScene);
         exit.onClick.AddListener(ExitGame);
+        musicManager.PlayRandomMusicIntro();
     }
 
     private void LoadScene()
     {
         Debug.Log("LoadScene!!");
         SceneManager.LoadScene("ControllableScene");
+        HidePanel("MainMenu");
+        musicManager.PlayRandomMusicMain();
+        musicManager.SetLoop();
+
     }
     private void ExitGame()
     {
