@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Collider Exit:" + collision.name);
 
-        if (spriteRenderer != null)
+        if (collision.CompareTag("Controllable") && spriteRenderer != null)
         {
             spriteRenderer.material = originMat;
             spriteRenderer = null;
