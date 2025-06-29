@@ -45,7 +45,7 @@ public class UIManager : MonoSingleton<UIManager>
         finishEnd.onClick.AddListener(ExitGame);
 
         musicManager.PlayRandomMusicIntro();
-        musicManager.SetLoop();g
+        musicManager.SetLoop();
     }
 
     void LoadMain()
