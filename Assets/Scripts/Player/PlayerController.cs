@@ -173,7 +173,6 @@ public class PlayerController : MonoBehaviour
             spriteRenderer = currentInfluenceObject.GetComponent<SpriteRenderer>();
             originMat = spriteRenderer.material;
             spriteRenderer.material = outline;
-
         }
     }
 

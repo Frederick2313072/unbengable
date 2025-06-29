@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Object
 {
-    public class Telephone : ObjectBase
+    public class Painting : ObjectBase
     {
-        public NPCFearType feartype = NPCFearType.Telephone; // Fear type for this object
+        public NPCFearType feartype = NPCFearType.Painting; // Fear type for this object
         
         public Animator anim;
         
@@ -25,7 +25,7 @@ namespace Object
 
         public override void TriggerAudio()
         {
-            musicManager.PlayRandomTelephoneRing();
+            musicManager.PlayRandomFrameBroken();
         }
         
         public override void Trigger()
@@ -48,6 +48,7 @@ namespace Object
                 }
             }
             
+            
             Debug.Log("TestObject Triggered");
         }
         
@@ -55,10 +56,10 @@ namespace Object
         {
             if (anim != null)
             {
-                anim.SetBool("ring", true);
-                TriggerAudio(); // 播放电话铃声
+                anim.SetBool("isChange", true);
+                TriggerAudio(); // 播放画框破碎音效
                 yield return new WaitForSeconds(1.0f); // 等待动画播放完成
-                anim.SetBool("ring", false); // 停止动画
+                anim.SetBool("isChange", false); // 停止动画
             }
         }
         
