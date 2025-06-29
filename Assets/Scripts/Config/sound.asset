@@ -49,3 +49,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d6f67ed2c14704c479679bfd849b3492, type: 3}
   music_main:
   - {fileID: 8300000, guid: 5cc922459f2ee46408c61795704f0bef, type: 3}
+  ui_postive:
+  - {fileID: 8300000, guid: 89c092aac607103479c767e364f435c2, type: 3}
+  telephone_ring:
+  - {fileID: 8300000, guid: 584bd30b160698f469b6e879ccf01536, type: 3}
+  human_death:
+  - {fileID: 8300000, guid: 968925ba6614db14cbcc35b1258a5d46, type: 3}
+  - {fileID: 8300000, guid: cc23d24def95d7e4da2c08fffa8710b6, type: 3}
+  - {fileID: 8300000, guid: 628494339c59e314c94e01840f5b9c29, type: 3}
