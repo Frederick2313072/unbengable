@@ -27,6 +27,8 @@ public class MusicConfig : ScriptableObject
     public AudioClip[] music_intro;
     [Header("游戏内音乐")]
     public AudioClip[] music_main;
+    [Header("结算")]
+    public AudioClip[] ui_postive;
     [Header("铃声")]
     public AudioClip[] telephone_ring;
     [Header("死亡音效")]
