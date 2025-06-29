@@ -11,12 +11,14 @@ public class MusicManager:MonoBehaviour
 
     public  void Init()
     {
-   
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        
+        SetVolum(1.0f);
+
 
         //Object = new List<ObjectBase>();
         //TriggerObject = new List<ObjectBase>();
@@ -70,6 +72,16 @@ public class MusicManager:MonoBehaviour
     public void PlayRandomMusicIntro()
     {
         PlayRandomAudioClip(musicConfig.music_intro);
+    }
+    
+    public void PlayRandomTelephoneRing()
+    {
+        PlayRandomAudioClip(musicConfig.telephone_ring);
+    }
+    
+    public void PlayRandomHumanDead()
+    {
+        PlayRandomAudioClip(musicConfig.human_death);
     }
 
     public void PlayRandomMusicMain()

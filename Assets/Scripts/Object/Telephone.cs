@@ -9,10 +9,23 @@ namespace Object
         public NPCFearType feartype = NPCFearType.Telephone; // Fear type for this object
         
         public Animator anim;
+        
+        public string musicManagerName = "MusicManager"; // Name of the GameObject containing the MusicManager
+        public MusicManager musicManager; // Reference to the MusicManager for sound effects
 
         void Start()
         {
             anim = GetComponent<Animator>();
+            
+            if (musicManager == null)
+            {
+                musicManager = GameObject.Find(musicManagerName).GetComponent<MusicManager>();
+            }
+        }
+
+        public override void TriggerAudio()
+        {
+            musicManager.PlayRandomTelephoneRing();
         }
         
         public override void Trigger()

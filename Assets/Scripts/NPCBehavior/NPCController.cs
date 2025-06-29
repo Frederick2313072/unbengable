@@ -42,9 +42,10 @@ namespace NPCBehavior
         public int npcDefaultHealth = 5;
         public int npcCurrentHealth = 5; // Current health of the NPC
 
-        // TODO: 动画系统
         public Animator npcAnimator; // Animator component for NPC animations
-
+        
+        public MusicManager musicManager; // Reference to the MusicManager for sound effects
+        
         private ObjectBase _targetObject;
         
         // 步行所需代码
@@ -56,6 +57,7 @@ namespace NPCBehavior
         public float runningSpeed = 0.3f;
 
         public string splineGameObjectName = "Spline"; // Name of the GameObject containing the spline
+        public string musicManagerName = "MusicManager"; // Name of the GameObject containing the MusicManager
         
         private float _progress = 0.0f; // Current progress along the spline (0 to 1)s
         
@@ -88,13 +90,30 @@ namespace NPCBehavior
                     Debug.LogError("SplineContainer not found under the child GameObject named 'Spline'.");
                 }
             }
+            
+            if (musicManager == null)
+            {
+                GameObject musicTransform = GameObject.Find(musicManagerName);
+                if (musicTransform != null)
+                {
+                    musicManager = musicTransform.GetComponent<MusicManager>();
+                }
+
+                if (musicManager == null)
+                {
+                    Debug.LogError("musicManager not found under the child GameObject named 'MusicManager'.");
+                }
+            }
+            
+            musicManager.Init(); // Get the MusicManager instance
         }
+        
+        
 
         // Update is called once per frame
         void Update()
         {
             WalkingAlongSpline();
-            // MusicManager.Instance.PlayRandomHumanFootstep(); // Play footstep sound effect
         }
 
 
@@ -134,7 +153,7 @@ namespace NPCBehavior
             }
 
             npcAnimator.SetTrigger("Running"); // Trigger death animation
-            // MusicManager.Instance.PlayRandomHumanHorror(); // Play horror sound effect
+            musicManager.PlayRandomHumanHorror(); // Play horror sound effect
             
             // Wait for the shock duration
             yield return new WaitForSeconds(duration);
@@ -161,6 +180,8 @@ namespace NPCBehavior
             // Wait for the death animation to finish
             npcAnimator.SetBool("isDead", true);
             _currentSpeed = 0;
+            musicManager.PlayRandomHumanDead(); // Play horror sound effect
+
             yield return new WaitForSeconds(1.0f); // Adjust this duration based on your animation length
             
             // Destroy the NPC GameObject
