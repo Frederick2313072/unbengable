@@ -9342,7 +9342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.71
+      value: -7.7198853
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9350,11 +9350,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.59
+      value: 2.611602
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.77631605
+      value: 0.2502183
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalRotation.x
@@ -9362,7 +9362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.630344
+      value: -0.9681895
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalRotation.z
@@ -9374,16 +9374,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -78.151
+      value: -151.019
       objectReference: {fileID: 0}
     - target: {fileID: 6651053064433294293, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8492732287057092206, guid: d4de8dd75e7d14283b6c39a1770c0674, type: 3}
-      propertyPath: musicManager
-      value: 
-      objectReference: {fileID: 1664799502}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

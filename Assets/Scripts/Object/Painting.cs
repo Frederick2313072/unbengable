@@ -48,7 +48,6 @@ namespace Object
                 }
             }
             
-            
             Debug.Log("TestObject Triggered");
         }
         

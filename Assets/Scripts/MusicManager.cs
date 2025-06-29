@@ -94,7 +94,7 @@ public class MusicManager:MonoBehaviour
     {
         if (clips != null && clips.Length > 0)
         {
-            audioSource.Stop();
+            // audioSource.Stop();
             AudioClip randomClip = clips[Random.Range(0, clips.Length)];
             audioSource.PlayOneShot(randomClip);
         }
