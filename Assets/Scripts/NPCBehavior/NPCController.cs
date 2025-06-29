@@ -94,7 +94,7 @@ namespace NPCBehavior
         void Update()
         {
             WalkingAlongSpline();
-            MusicManager.Instance.PlayRandomHumanFootstep(); // Play footstep sound effect
+            // MusicManager.Instance.PlayRandomHumanFootstep(); // Play footstep sound effect
         }
 
 
@@ -134,7 +134,7 @@ namespace NPCBehavior
             }
 
             npcAnimator.SetTrigger("Running"); // Trigger death animation
-            MusicManager.Instance.PlayRandomHumanHorror(); // Play horror sound effect
+            // MusicManager.Instance.PlayRandomHumanHorror(); // Play horror sound effect
             
             // Wait for the shock duration
             yield return new WaitForSeconds(duration);
