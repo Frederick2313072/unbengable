@@ -100,6 +100,12 @@ public class MusicManager:MonoBehaviour
         }
     }
 
+    public void PlayRandomEnd()
+    {
+        audioSource.Stop();
+        audioSource.PlayOneShot(musicConfig.ui_postive[Random.Range(0, musicConfig.ui_postive.Length)]);
+    }
+
     public void SetLoop()
     {
         audioSource.loop = true;
@@ -108,5 +114,10 @@ public class MusicManager:MonoBehaviour
     public void SetVolum(float v)
     {
         audioSource.volume = v;
+    }
+
+    public void SetStop()
+    {
+        audioSource.Stop();
     }
 }

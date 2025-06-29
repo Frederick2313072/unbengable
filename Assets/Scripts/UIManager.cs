@@ -13,6 +13,10 @@ public class UIManager : MonoSingleton<UIManager>
     public Button start = default;
     public Button exit = default;
 
+    public Button gameEnd = default;
+    public Button finishEnd = default;
+
+
     public string sceneName = "ControllableScene";
     public GameObject mainMenuPanel = default;
     public GameObject gamePanel = default;
@@ -38,16 +42,35 @@ public class UIManager : MonoSingleton<UIManager>
         
         start.onClick.AddListener(LoadScene);
         exit.onClick.AddListener(ExitGame);
+        gameEnd.onClick.AddListener(LoadEnd);
+        finishEnd.onClick.AddListener(LoadMain);
+
         musicManager.PlayRandomMusicIntro();
     }
 
+    void LoadMain()
+    {
+        musicManager.PlayRandomMusicIntro();
+        HideAllPanels();
+        ShowPanel("MainMenu");
+    }
+    void LoadEnd()
+    {
+        musicManager.PlayRandomEnd();
+        HideAllPanels();
+        ShowPanel("Finish");
+
+    }
     private void LoadScene()
     {
         Debug.Log("LoadScene!!");
         SceneManager.LoadScene("ControllableScene");
         HidePanel("MainMenu");
+
+        musicManager.SetStop();
         musicManager.PlayRandomMusicMain();
         musicManager.SetLoop();
+        ShowPanel("Game");
 
     }
     private void ExitGame()
