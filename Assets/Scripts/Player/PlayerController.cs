@@ -82,11 +82,16 @@ public class PlayerController : MonoBehaviour
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
         // 目标速度（不考虑重力时，直接用输入轴）
-        Vector3 targetVelocity = new Vector3(h,0,v) * moveSpeed;
+        Vector3 targetVelocity = new Vector3(h, 0, v) * moveSpeed;
+        
+        float angle = 45f; // Rotation angle in degrees
 
+        // Rotate the vector around the Y-axis
+        targetVelocity = Quaternion.Euler(0, angle, 0) * targetVelocity;
+        
         // 平滑速度变化
         Vector3 velocity = Vector3.SmoothDamp(_rigidbody.velocity, targetVelocity, ref veloc, movementSmoothing);
-
+        
         _rigidbody.velocity = velocity;
 
         if (h != 0 || v != 0) ChangeState(PlayerState.Move);

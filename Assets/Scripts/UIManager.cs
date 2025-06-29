@@ -38,21 +38,21 @@ public class UIManager : MonoSingleton<UIManager>
 
         // 显示主菜单
         ShowPanel("MainMenu");
-
         
         start.onClick.AddListener(LoadScene);
         exit.onClick.AddListener(ExitGame);
         gameEnd.onClick.AddListener(LoadEnd);
-        finishEnd.onClick.AddListener(LoadMain);
+        finishEnd.onClick.AddListener(ExitGame);
 
         musicManager.PlayRandomMusicIntro();
+        musicManager.SetLoop();g
     }
 
     void LoadMain()
     {
         musicManager.PlayRandomMusicIntro();
         HideAllPanels();
-        ShowPanel("MainMenu");
+        ShowPanel("MainMenuMainMenu");
     }
     void LoadEnd()
     {
@@ -64,15 +64,16 @@ public class UIManager : MonoSingleton<UIManager>
     private void LoadScene()
     {
         Debug.Log("LoadScene!!");
-        SceneManager.LoadScene("ControllableScene");
-        HidePanel("MainMenu");
 
         musicManager.SetStop();
         musicManager.PlayRandomMusicMain();
         musicManager.SetLoop();
+        SceneManager.LoadScene(sceneName);
+        
         ShowPanel("Game");
-
+        HidePanel("MainMenu");
     }
+
     private void ExitGame()
     {
         Debug.Log("Exit Game!!");

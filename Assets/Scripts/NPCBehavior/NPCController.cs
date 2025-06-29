@@ -53,8 +53,8 @@ namespace NPCBehavior
 
         private float _currentSpeed = 0.1f; // Speed of movement along the spline
 
-        public float walkingSpeed = 0.1f; // Speed of the NPC along the spline
-        public float runningSpeed = 0.3f;
+        public float walkingSpeed = 0.02f; // Speed of the NPC along the spline
+        public float runningSpeed = 0.1f;
 
         public string splineGameObjectName = "Spline"; // Name of the GameObject containing the spline
         public string musicManagerName = "MusicManager"; // Name of the GameObject containing the MusicManager
