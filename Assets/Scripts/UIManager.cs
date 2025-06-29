@@ -10,12 +10,15 @@ public class UIManager : MonoSingleton<UIManager>
     private Dictionary<string, GameObject> uiPanels = new Dictionary<string, GameObject>();
 
     public MusicManager musicManager = default;
+
+
     public Button start = default;
     public Button exit = default;
 
     public Button gameEnd = default;
     public Button finishEnd = default;
 
+    public string originName = "UI-1";
 
     public string sceneName = "ControllableScene";
     public GameObject mainMenuPanel = default;
@@ -50,21 +53,24 @@ public class UIManager : MonoSingleton<UIManager>
 
     void LoadMain()
     {
-        musicManager.PlayRandomMusicIntro();
-        HideAllPanels();
-        ShowPanel("MainMenu");
+        //musicManager.PlayRandomMusicIntro();
+        //HideAllPanels();
+        //ShowPanel("MainMenu");
+        SceneManager.LoadScene(originName);
+
     }
     void LoadEnd()
     {
         musicManager.PlayRandomEnd();
         HideAllPanels();
         ShowPanel("Finish");
+        SceneManager.LoadScene(originName);
 
     }
     private void LoadScene()
     {
         Debug.Log("LoadScene!!");
-        SceneManager.LoadScene("ControllableScene");
+        SceneManager.LoadScene(sceneName);
         HidePanel("MainMenu");
 
         musicManager.SetStop();
